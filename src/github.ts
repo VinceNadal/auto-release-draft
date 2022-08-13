@@ -1,4 +1,4 @@
-import * as github from '@actions/github'
+import { context, getOctokit} from '@actions/github'
 import {info} from '@actions/core'
 import {removePrefix, isPreRelease} from './version'
 import {toUnorderedList} from './markdown'
@@ -8,13 +8,13 @@ export async function createReleaseDraft(
   repoToken: string,
   changelog: string
 ): Promise<string> {
-  const octokit = github.getOctokit(repoToken)
+  const octokit = getOctokit(repoToken)
 
   const response = await octokit.request(
-    `POST /repos/${github.context.repo.owner}/${github.context.repo.repo}/releases`,
+    `POST /repos/${context.repo.owner}/${context.repo.repo}/releases`,
     {
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
+      owner: context.repo.owner,
+      repo: context.repo.repo,
       tag_name: versionTag,
       name: removePrefix(versionTag),
       body: toUnorderedList(changelog),
