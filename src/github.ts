@@ -1,5 +1,5 @@
 import * as github from '@actions/github'
-import * as core from '@actions/core'
+import {info} from '@actions/core'
 import {removePrefix, isPreRelease} from './version'
 import {toUnorderedList} from './markdown'
 
@@ -27,7 +27,7 @@ export async function createReleaseDraft(
     throw new Error(`Failed to create the release: ${response.status}`)
   }
 
-  core.info(`Created release draft ${response.data.name}`)
+  info(`Created release draft ${response.data.name}`)
 
   return response.data.html_url
 }
